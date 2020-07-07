@@ -105,15 +105,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -123,25 +123,28 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {
     # 全局异常
     'EXCEPTION_HANDLER': 'utils.exceptions.exception_handler',
+    # 搜索配置
+    # 'DEFAULT_FILTER_BACKENDS': "rest_framework.filters.SearchFilter",
+
 }
 
 AUTH_USER_MODEL = "api.User"
 
 # jwt配置
-# JWT_AUTH = {
-#     # payload => token
-#     'JWT_ENCODE_HANDLER':
-#         'rest_framework_jwt.utils.jwt_encode_handler',
-#     # payload => load
-#     'JWT_DECODE_HANDLER':
-#         'rest_framework_jwt.utils.jwt_decode_handler',
-#     # user => payload
-#     'JWT_PAYLOAD_HANDLER':
-#         'rest_framework_jwt.utils.jwt_payload_handler',
-#     # token的过期时间
-#     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
-#     # token刷新过期时间
-#     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
-#     # 反爬小措施
-#     'JWT_AUTH_HEADER_PREFIX': 'auth',
-# }
+JWT_AUTH = {
+    # payload => token
+    'JWT_ENCODE_HANDLER':
+        'rest_framework_jwt.utils.jwt_encode_handler',
+    # payload => load
+    'JWT_DECODE_HANDLER':
+        'rest_framework_jwt.utils.jwt_decode_handler',
+    # user => payload
+    'JWT_PAYLOAD_HANDLER':
+        'rest_framework_jwt.utils.jwt_payload_handler',
+    # token的过期时间
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+    # token刷新过期时间
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    # 反爬小措施
+    'JWT_AUTH_HEADER_PREFIX': 'auth',
+}

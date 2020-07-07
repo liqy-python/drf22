@@ -9,4 +9,5 @@ urlpatterns = [
     url(r"obt/", obtain_jwt_token),
     path("user/", views.UserDetailAPIView.as_view()),
     path("check/", views.LoginAPIView.as_view()),
+    path("computers/", views.ComputerListAPIView.as_view()),
 ]

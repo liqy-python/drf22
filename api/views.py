@@ -1,14 +1,19 @@
 import re
 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication,BaseJSONWebTokenAuthentication
 from rest_framework_jwt.serializers import jwt_encode_handler, jwt_payload_handler,jwt_decode_handler
+from rest_framework.filters import SearchFilter, OrderingFilter
 
+from api.filter import LimitFilter, ComputerFilterSet
+from api.pagination import MyPageNumberPagination,MyLimitPagination, MyCoursePagination
 from utils.response import APIResponse
-from api.models import User
-from api.serializers import UserModelSerializer
-# from api.authentication import JwTAuthentication
+from api.models import User,Computer
+from api.serializers import UserModelSerializer, ComputerModelSerializer
+from api.authentication import JwTAuthentication
 
 
 class UserDetailAPIView(APIView):
@@ -48,3 +53,22 @@ class LoginAPIView(APIView):
             token = jwt_encode_handler(payload)
             return APIResponse(results={"username": user_obj.username}, token=token)
         return APIResponse(data_message="错误了")
+
+
+# 游标分页
+class ComputerListAPIView(ListAPIView):
+    queryset = Computer.objects.all()
+    serializer_class = ComputerModelSerializer
+
+    filter_backends = [SearchFilter,OrderingFilter, LimitFilter, DjangoFilterBackend]
+    # 指定当前搜索条件
+    search_fields = ["name","price"]
+    # 指定排序的条件
+    ordering = ["price"]
+    # 指定分页器     不能使用列表 或 元组
+    pagination_class = MyPageNumberPagination
+    # pagination_class = MyLimitPagination
+    # pagination_class = MyCoursePagination
+
+    # django-filter 查询   通过filter_class指定过滤器
+    filter_class = ComputerFilterSet
